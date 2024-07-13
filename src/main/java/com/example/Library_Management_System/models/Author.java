@@ -1,6 +1,10 @@
 package com.example.Library_Management_System.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table
@@ -12,11 +16,20 @@ public class Author {
     )
     Long id;
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "bookAuthors")
+    private Set<Book> books = new HashSet<>();
+
     private String firstName;
 
     private String lastName;
 
-    public Author(String firstName, String lastName) {
+    public Author() {
+    }
+
+    public Author (String firstName, String lastName){
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public Long getId() {
@@ -41,5 +54,9 @@ public class Author {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Set<Book> getBooks() {
+        return books;
     }
 }

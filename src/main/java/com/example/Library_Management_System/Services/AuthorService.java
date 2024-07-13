@@ -27,12 +27,21 @@ public class AuthorService {
         authorRepository.deleteById(Long.valueOf(id));
     }
 
-    public Author updateAuthor(Author author, Long id) {
+    public Author updateAuthor(Author author, Integer id) {
         if(!authorRepository.existsById(Long.valueOf(id))){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Content Not Found");
         }
-        author.setId(id);
+        author.setId(Long.valueOf(id));
         authorRepository.save(author);
         return author;
     }
+
+    public Author getAuthor(Long authorId) {
+        return authorRepository.findById(authorId).get();
+    }
+
+    public Author getAuthorByName(String firstName, String lastName) {
+        return authorRepository.getByFirstNameAndLastName(firstName, lastName);
+    }
+
 }

@@ -27,12 +27,21 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
-    public Book updateBook(Book book, Long id) {
-        if(!bookRepository.existsById(id)){
+    public Book updateBook(Book book, Integer id) {
+        if(!bookRepository.existsById(Long.valueOf(id))){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book Not Found");
         }
-        book.setId(id);
+        book.setId(Long.valueOf(id));
         addBook(book);
         return book;
     }
+
+    public Book getBook(Long bookId) {
+        return bookRepository.findById(bookId).get();
+    }
+
+    public Book getByTitle(String title) {
+        return bookRepository.getByTitle(title);
+    }
+
 }

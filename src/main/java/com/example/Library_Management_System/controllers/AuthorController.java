@@ -21,14 +21,19 @@ public class AuthorController {
         return authorService.getAuthors();
     }
 
+    @GetMapping("/name/{firstName}/{lastName}")
+    public Author getByName(@PathVariable String firstName, @PathVariable String lastName){
+        return authorService.getAuthorByName(firstName, lastName);
+    }
+
     @PostMapping("")
     public Author addNewAuthor(@RequestBody Author author) {
         return authorService.addAuthor(author);
     }
 
-    @PutMapping("/id/id")
+    @PutMapping("/id/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Author updateAuthorById(Author author, Long id){
+    public Author updateAuthorById(@RequestBody Author author, @PathVariable Integer id){
         return authorService.updateAuthor(author, id);
     }
 

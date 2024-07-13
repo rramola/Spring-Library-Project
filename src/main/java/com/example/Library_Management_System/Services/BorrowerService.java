@@ -35,4 +35,11 @@ public class BorrowerService {
         addBorrower(borrower);
         return borrower;
     }
+
+    public Borrower getBorrowerByName(String firstName, String lastName){
+        return borrowerRepository.findBorrowerByFirstNameAndLastName(firstName, lastName);
+    }
+    public Borrower getBorrower(Long borrowerId) {
+        return borrowerRepository.findById(borrowerId).get();
+    }
 }

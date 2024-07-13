@@ -20,6 +20,10 @@ public class BorrowerController {
         return borrowerService.getAllBorrowers();
     }
 
+    @GetMapping("/name/{firstName}/{lastName}")
+    public Borrower getBorrowerByName(@PathVariable String firstName, @PathVariable String lastName){
+        return borrowerService.getBorrowerByName(firstName, lastName);
+    }
     @PostMapping("")
     public Borrower addNewBorrower(@RequestBody Borrower borrower){
         return borrowerService.addBorrower(borrower);
