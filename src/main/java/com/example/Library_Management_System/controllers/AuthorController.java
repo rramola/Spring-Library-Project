@@ -25,6 +25,10 @@ public class AuthorController {
     public Author getByName(@PathVariable String firstName, @PathVariable String lastName){
         return authorService.getAuthorByName(firstName, lastName);
     }
+    @GetMapping("/id/{id}")
+    public Author getAuthorById(@PathVariable Long id){
+        return authorService.getAuthor(id);
+    }
 
     @PostMapping("")
     public Author addNewAuthor(@RequestBody Author author) {

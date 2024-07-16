@@ -24,6 +24,10 @@ public class BorrowerService {
     }
 
     public void deleteBorrower(Long id) {
+
+        if(!borrowerRepository.existsById(id)){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Borrower Not Found");
+        }
         borrowerRepository.deleteById(id);
     }
 
@@ -37,9 +41,17 @@ public class BorrowerService {
     }
 
     public Borrower getBorrowerByName(String firstName, String lastName){
-        return borrowerRepository.findBorrowerByFirstNameAndLastName(firstName, lastName);
+        var borrowerCheck = borrowerRepository.findBorrowerByFirstNameAndLastName(firstName, lastName);
+        if (borrowerCheck == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Borrower Not Found");
+        }
+        return borrowerCheck;
     }
-    public Borrower getBorrower(Long borrowerId) {
-        return borrowerRepository.findById(borrowerId).get();
+
+    public Borrower getBorrower(Long id) {
+        if(!borrowerRepository.existsById(id)){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Borrower Not Found");
+        }
+        return borrowerRepository.findById(id).get();
     }
 }

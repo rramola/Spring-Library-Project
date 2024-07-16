@@ -24,6 +24,9 @@ public class AuthorService {
     }
 
     public void deleteAuthor(Long id) {
+        if(!authorRepository.existsById(Long.valueOf(id))){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Content Not Found");
+        }
         authorRepository.deleteById(Long.valueOf(id));
     }
 
@@ -36,12 +39,19 @@ public class AuthorService {
         return author;
     }
 
-    public Author getAuthor(Long authorId) {
-        return authorRepository.findById(authorId).get();
+    public Author getAuthor(Long id) {
+        if(!authorRepository.existsById(Long.valueOf(id))){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Content Not Found");
+        }
+        return authorRepository.findById(id).get();
     }
 
     public Author getAuthorByName(String firstName, String lastName) {
-        return authorRepository.getByFirstNameAndLastName(firstName, lastName);
+        var authorCheck =  authorRepository.getByFirstNameAndLastName(firstName, lastName);
+        if (authorCheck == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Content Not Found");
+        }
+        return authorCheck;
     }
 
 }

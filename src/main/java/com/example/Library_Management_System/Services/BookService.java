@@ -24,7 +24,9 @@ public class BookService {
     }
 
     public void deleteBook(Long id) {
-        bookRepository.deleteById(id);
+        if(!bookRepository.existsById(Long.valueOf(id))){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book Not Found");
+        }bookRepository.deleteById(id);
     }
 
     public Book updateBook(Book book, Integer id) {
@@ -36,12 +38,20 @@ public class BookService {
         return book;
     }
 
-    public Book getBook(Long bookId) {
-        return bookRepository.findById(bookId).get();
+    public Book getBook(Long id) {
+
+        if(!bookRepository.existsById(Long.valueOf(id))){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book Not Found");
+        }
+        return bookRepository.findById(id).get();
     }
 
     public Book getByTitle(String title) {
-        return bookRepository.getByTitle(title);
+        var bookCheck = bookRepository.getByTitle(title);
+        if (bookCheck == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book Not Found");
+        }
+        return bookCheck;
     }
 
 }
